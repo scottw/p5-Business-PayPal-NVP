@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 our $AUTOLOAD;
 
 our $Debug  = 0;
@@ -349,6 +349,11 @@ using the "automatic" method.
 Example:
 
   %resp = $pp->send(METHOD => 'DoDirectPayment', %arguments);
+
+=head1 EXAMPLES
+
+Examples for each method are scattered throughout the documentation
+above, as well as in the F<t> directory of this distribution.
 
 =head1 TESTING
 

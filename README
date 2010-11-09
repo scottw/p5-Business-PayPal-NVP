@@ -1,4 +1,4 @@
-Business-PayPal-NVP version 1.03
+Business-PayPal-NVP version 1.05
 ================================
 
   my $pp = new Business::PayPal::NVP(%args);
@@ -35,7 +35,7 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2008 by Scott Wiersdorf
+Copyright (C) 2010 by Scott Wiersdorf
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.1 or,
