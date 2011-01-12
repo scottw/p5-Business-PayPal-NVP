@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '1.05';
+our $VERSION = '1.06';
 our $AUTOLOAD;
 
 our $Debug  = 0;
@@ -15,7 +15,7 @@ use LWP::UserAgent ();
 use URI::Escape ();
 use Carp 'croak';
 
-sub API_VERSION { '51.0' }
+sub API_VERSION { '62.0' }
 
 ## NOTE: This is an inside-out object; remove members in
 ## NOTE: the DESTROY() sub if you add additional members.
