@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '1.06';
+our $VERSION = '1.07';
 our $AUTOLOAD;
 
 our $Debug  = 0;
@@ -338,8 +338,8 @@ Examples:
   %resp = %pp->GetTransactionDetails( %data );
 
 and so forth. See
-L<https://www.paypal.com/en_US/pdf/PP_NVPAPI_DeveloperGuide.pdf> for
-complete API details.
+L<https://cms.paypal.com/cms_content/US/en_US/files/developer/PP_NVPAPI_DeveloperGuide.pdf>
+for complete API details.
 
 =head2 send
 
@@ -359,8 +359,9 @@ above, as well as in the F<t> directory of this distribution.
 
 To run the built-in tests for this module, you'll need to obtain a
 PayPal developer sandbox account. Once you've done that, create a file
-in this module's root directory (after you unpack it, the same place
-where the README file is found) in the following format:
+in this module's root directory (after you unpack the module, the same
+place where the README file is found) named F<auth.txt> in the
+following format:
 
   user = your.TEST.api.username.for.paypal.tld
   pwd  = your.TEST.api.password
