@@ -1,5 +1,13 @@
 Revision history for Perl extension Business::PayPal::NVP.
 
+Release: 1.07
+----------------------------
+revision 1.4
+date: 2011/04/11 20:51:02;  author: scott;  state: Exp;  lines: +6 -5
+- fix documentation links (RT#41593)
+- fix TESTING reference to auth.txt (RT#41593)
+- version bump
+
 Release: 1.06
 ----------------------------
 revision 1.3
