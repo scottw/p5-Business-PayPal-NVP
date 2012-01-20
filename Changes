@@ -1,5 +1,16 @@
 Revision history for Perl extension Business::PayPal::NVP.
 
+Release: 1.08
+----------------------------
+revision 1.2
+date: 2012/01/20 16:22:14;  author: scott;  state: Exp;  lines: +1 -1
+- require LWP::Protocol::https; version bump
+----------------------------
+revision 1.1
+date: 2010/11/09 16:16:20;  author: scott;  state: Exp;
+- initial import to new repo
+- updated to 1.04 with new PayPal NVP documentation URL
+
 Release: 1.07
 ----------------------------
 revision 1.4
