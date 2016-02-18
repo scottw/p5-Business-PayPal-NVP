@@ -9,6 +9,7 @@ our $AUTOLOAD;
 
 our $Debug  = 0;
 our $Branch = 'test';
+our $Timeout= 0;
 
 #use LWP::Debug qw(+ -conns);
 use LWP::UserAgent ();
@@ -31,6 +32,7 @@ sub new {
     my $self = bless \(my $ref), $class;
 
     $Branch = $args{branch} || 'test';
+    $Timeout = $args{timeout};
 
     $errors {$self} = [ ];
     $test   {$self} = $args{test} || { };
@@ -65,6 +67,7 @@ sub _do_request {
     my %args = @_;
 
     my $lwp = LWP::UserAgent->new;
+    $lwp->timeout($Timeout) if $Timeout;
     $lwp->agent("perl-Business-PayPal-NVP/$VERSION");
     my $req = HTTP::Request->new( POST => $self->AUTH_CRED('url') );
     $req->content_type( 'application/x-www-form-urlencoded' );
@@ -159,7 +162,9 @@ Business::PayPal::NVP - PayPal NVP API
                                        live => { user => 'foo.domain.tld',
                                                  pwd  => '55553333234',
                                                  sig  => 'Afk4js43K.kKdkwj.i9w39fswjeifji-2oj3k' },
-                                       branch => 'test' );
+                                       branch  => 'test',
+                                       timeout => 60,
+                                     );
   
   ##
   ## direct payment
