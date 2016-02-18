@@ -3,7 +3,8 @@ use warnings;
 use Test::More;
 use Data::Dumper;
 
-my $NUM_TESTS = 5;
+my $NUM_TESTS = 6;
+plan tests => $NUM_TESTS;
 
 #########################
 
@@ -23,25 +24,32 @@ DO_AUTH: {
       print STDERR "AUTH:\n";
       print STDERR Dumper(\%auth);
 
-
-      if( %auth ) {
-          plan tests => $NUM_TESTS;
-          last DO_AUTH;
-      }
-
-      plan skip_all => "auth.txt found but incomplete. See README or module documentation";
-      exit;
+      diag "auth.txt found but incomplete. See README or module documentation" unless %auth;
   }
   else {
-      plan skip_all => "No auth.txt found. See README or module documentation";
-      exit;
+      diag "No auth.txt found. See README or module documentation";
   }
+}
+
+if ( ! %auth ) {
+    # put in fake credentials for at least bare minimum tests
+    $auth{'user'} = 'your.TEST.api.username.for.paypal.tld';
+    $auth{'pwd'}  = 'your.TEST.api.password';
+    $auth{'sig'}  = 'your.TEST.api.signature';
 }
 
 use_ok('Business::PayPal::NVP');
 
 $GBN::PayPal::Debug = 0;
 my $pp = new Business::PayPal::NVP( test => \%auth, branch => 'test' );
+isa_ok($pp, 'Business::PayPal::NVP');
+
+if ( $auth{'user'} eq 'your.TEST.api.username.for.paypal.tld' ) {
+    SKIP: {
+        skip "Missing/invalid auth.txt.  See README or module documentation", $NUM_TESTS - 2;
+    }
+    exit;
+}
 
 my %ans = ();
 
@@ -64,7 +72,7 @@ my %ans = ();
 			   );
 
 is( $ans{ACK}, 'Success', "successful request" )
-  or diag Dumper(\%ans);
+  or diag Dumper(\%ans,$pp->errors);
 
 %ans = ();
 $GBN::PayPal::Debug = 0;
