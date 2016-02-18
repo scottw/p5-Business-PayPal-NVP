@@ -24,10 +24,24 @@ DO_AUTH: {
       print STDERR "AUTH:\n";
       print STDERR Dumper(\%auth);
 
-      diag "auth.txt found but incomplete. See README or module documentation" unless %auth;
+      if ( ! %auth ) {
+          diag ' ';
+          diag '###################################################################';
+          diag ' ';
+          diag "auth.txt found but incomplete. See README or module documentation";
+          diag "Some tests will be skipped.";
+          diag ' ';
+          diag '###################################################################';
+      }
   }
   else {
+      diag ' ';
+      diag '###################################################################';
+      diag ' ';
       diag "No auth.txt found. See README or module documentation";
+      diag "Some tests will be skipped.";
+      diag ' ';
+      diag '###################################################################';
   }
 }
 
