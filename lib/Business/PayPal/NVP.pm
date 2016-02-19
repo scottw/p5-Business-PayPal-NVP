@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '1.08';
+our $VERSION = '1.09';
 our $AUTOLOAD;
 
 our $Debug  = 0;
@@ -165,11 +165,11 @@ Business::PayPal::NVP - PayPal NVP API
                                        branch  => 'test',
                                        timeout => 60,
                                      );
-  
+
   ##
   ## direct payment
-  ## 
-  %resp = $nvp->DoDirectPayment( PAYMENTACTION  => 'Sale', 
+  ##
+  %resp = $nvp->DoDirectPayment( PAYMENTACTION  => 'Sale',
                                  CREDITCARDTYPE => 'VISA',
                                  ACCT           => '4321123412341234',
                                  AMT            => '30.00',
@@ -184,7 +184,7 @@ Business::PayPal::NVP - PayPal NVP API
                                  COUNTRY        => 'United States',
                                  ZIP            => '12345',
                                  COUNTRYCODE    => 'US' );
-  
+
   unless( $resp{ACK} eq 'Success' ) {
       croak "dang it...";
   }
@@ -192,7 +192,7 @@ Business::PayPal::NVP - PayPal NVP API
 
   ##
   ## express checkout
-  ## 
+  ##
   $invnum = time;
   %resp = $nvp->SetExpressCheckout( AMT           => '25.44',
                                     CURRENCYCODE  => 'USD',
@@ -202,13 +202,13 @@ Business::PayPal::NVP - PayPal NVP API
                                     PAYMENTACTION => 'Sale',
                                     RETURNURL     => 'http://www.example.com/thankyou.html',
                                     CANCELURL     => 'http://www.example.com/sorry.html', );
-  
+
   $token = $resp{TOKEN};
-  
+
   %resp = $pp->GetExpressCheckoutDetails( TOKEN => $token );
-  
+
   $payerid = $resp{PAYERID};
-  
+
   %resp = $pp->DoExpressCheckoutPayment( TOKEN         => $token,
                                          AMT           => '25.44',
                                          PAYERID       => $payerid,
@@ -228,7 +228,7 @@ all of the messy HTTP transport issues.
 
 Here is the PayPal NVP API:
 
-L<https://cms.paypal.com/cms_content/US/en_US/files/developer/PP_NVPAPI_DeveloperGuide.pdf>
+L<https://developer.paypal.com/webapps/developer/docs/classic/api/>
 
 =head1 METHODS
 
@@ -343,7 +343,7 @@ Examples:
   %resp = %pp->GetTransactionDetails( %data );
 
 and so forth. See
-L<https://cms.paypal.com/cms_content/US/en_US/files/developer/PP_NVPAPI_DeveloperGuide.pdf>
+L<https://developer.paypal.com/webapps/developer/docs/classic/api/>
 for complete API details.
 
 =head2 send
@@ -389,8 +389,6 @@ Send any additional suggestions to the author.
 
 =head1 SEE ALSO
 
-L<https://www.paypal.com/IntegrationCenter/ic_nvp.html>
-
 L<Business::PayPal::API>
 
 =head1 AUTHOR
@@ -399,7 +397,7 @@ Scott Wiersdorf, E<lt>scott@perlcode.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by Scott Wiersdorf
+Copyright (C) 2008, 2016 by Scott Wiersdorf
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.8 or,
