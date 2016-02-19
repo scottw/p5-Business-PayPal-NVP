@@ -1,5 +1,13 @@
 Revision history for Perl extension Business::PayPal::NVP.
 
+Release: 1.09
+----------------------------
+Date:   Fri Feb 19 07:38:29 2016 -0700
+- version bump; fix PayPal doc URLs
+Date:   Thu Feb 18 09:48:16 2016 -0700
+- Let the user specify an alternate timeout
+- migrate CVS to git; published on github
+
 Release: 1.08
 ----------------------------
 revision 1.2
