@@ -21,9 +21,6 @@ DO_AUTH: {
       }
       close $fh;
 
-      print STDERR "AUTH:\n";
-      print STDERR Dumper(\%auth);
-
       if ( ! %auth ) {
           diag ' ';
           diag '###################################################################';
@@ -54,8 +51,9 @@ if ( ! %auth ) {
 
 use_ok('Business::PayPal::NVP');
 
-$GBN::PayPal::Debug = 0;
-my $pp = new Business::PayPal::NVP( test => \%auth, branch => 'test' );
+$Business::PayPal::NVP::Debug = 0;
+my $ua = LWP::UserAgent->new;
+my $pp = new Business::PayPal::NVP( test => \%auth, branch => 'test', ua => $ua );
 isa_ok($pp, 'Business::PayPal::NVP');
 
 if ( $auth{'user'} eq 'your.TEST.api.username.for.paypal.tld' ) {
@@ -68,7 +66,7 @@ if ( $auth{'user'} eq 'your.TEST.api.username.for.paypal.tld' ) {
 my %ans = ();
 
 ## must have a CC merch setup w/ paypal for this to work
-%ans = $pp->DoDirectPayment( PAYMENTACTION  => 'Sale', 
+%ans = $pp->DoDirectPayment( PAYMENTACTION  => 'Sale',
 			     CREDITCARDTYPE => 'VISA',
 			     ACCT           => '4933431559370821',
 			     AMT            => '30.00',
@@ -89,7 +87,7 @@ is( $ans{ACK}, 'Success', "successful request" )
   or diag Dumper(\%ans,$pp->errors);
 
 %ans = ();
-$GBN::PayPal::Debug = 0;
+$Business::PayPal::NVP::Debug = 0;
 my $invnum = time;
 %ans = $pp->SetExpressCheckout( AMT           => '25.44',
 				DESC          => 'one widget',
@@ -122,7 +120,7 @@ my $payerid = $ans{PAYERID};
 ok( $payerid, "GetExpressCheckoutDetails data" );
 
 %ans = ();
-$GBN::PayPal::Debug = 0;
+$Business::PayPal::NVP::Debug = 0;
 %ans = $pp->DoExpressCheckoutPayment( TOKEN         => $token,
 				      AMT           => '25.44',
 				      PAYERID       => $payerid,

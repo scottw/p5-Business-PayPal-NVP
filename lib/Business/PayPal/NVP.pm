@@ -4,19 +4,19 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '1.09';
+our $VERSION = '1.10';
 our $AUTOLOAD;
 
 our $Debug  = 0;
 our $Branch = 'test';
 our $Timeout= 0;
+our $UserAgent;
 
-#use LWP::Debug qw(+ -conns);
 use LWP::UserAgent ();
 use URI::Escape ();
 use Carp 'croak';
 
-sub API_VERSION { '62.0' }
+sub API_VERSION { 98 }
 
 ## NOTE: This is an inside-out object; remove members in
 ## NOTE: the DESTROY() sub if you add additional members.
@@ -33,6 +33,11 @@ sub new {
 
     $Branch = $args{branch} || 'test';
     $Timeout = $args{timeout};
+    $UserAgent = $args{ua} || LWP::UserAgent->new;
+
+    if (ref $UserAgent ne 'LWP::UserAgent') {
+        die "ua must be a LWP::UserAgent object\n";
+    }
 
     $errors {$self} = [ ];
     $test   {$self} = $args{test} || { };
@@ -66,7 +71,7 @@ sub _do_request {
     my $self = shift;
     my %args = @_;
 
-    my $lwp = LWP::UserAgent->new;
+    my $lwp = $UserAgent;
     $lwp->timeout($Timeout) if $Timeout;
     $lwp->agent("perl-Business-PayPal-NVP/$VERSION");
     my $req = HTTP::Request->new( POST => $self->AUTH_CRED('url') );
@@ -80,7 +85,11 @@ sub _do_request {
 				  %args );
     $req->content( $content );
 
-    local $ENV{HTTPS_DEBUG} = $Debug;
+    if ($Debug) {
+        require Data::Dumper;
+        print STDERR "Making request: " . Data::Dumper::Dumper($req);
+    }
+
     my $res = $lwp->request($req);
 
     unless( $res->code == 200 ) {
@@ -259,7 +268,7 @@ format:
     subject  => 'some@where.tld' }
 
 The I<version> and I<subject> parameters are optional. The I<version>
-parameter changes the default API version (currently 51.0) for all
+parameter changes the default API version (currently 98) for all
 calls made using this object. The I<subject> parameter is passed as
 described in the PayPal API documentation (do not use unless you
 understand what it is for).
@@ -269,14 +278,29 @@ understand what it is for).
 sets the live authentication data. See 'test' parameter for an example
 format.
 
-=back
-
 Example:
 
   my $pp = new Business::PayPal::NVP( branch => 'live',
                                       live   => { user => 'my.live.paypal.api.username',
                                                   pwd  => '234089usdfjo283r4jaksdfu934',
                                                   sig  => SlkaElRakSw34-asdflkj34.sdf', } );
+
+=item ua
+
+sets the user agent used for HTTP requests. Must be an LWP::UserAgent
+(for now). Useful if you need to set up a proxies, add handlers, or
+make use of other LWP client features.
+
+Example:
+
+    my $ua = LWP::UserAgent->new();
+    $ua->env_proxy(1);
+
+    my $pp = new Business::PayPal::NVP( branch => 'live',
+                                        live   => { ... },
+                                        ua     => $ua );
+
+=back
 
 =head2 errors
 
@@ -394,6 +418,10 @@ L<Business::PayPal::API>
 =head1 AUTHOR
 
 Scott Wiersdorf, E<lt>scott@perlcode.orgE<gt>
+
+=head1 CONTRIBUTORS
+
+Sachin Sebastian, E<lt>sachinjsk@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

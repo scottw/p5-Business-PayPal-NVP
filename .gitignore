@@ -3,3 +3,4 @@ cpanfile
 cpanfile.snapshot
 local
 *.tar.gz
+auth.txt

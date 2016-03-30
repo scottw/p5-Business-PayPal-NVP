@@ -1,5 +1,11 @@
 Revision history for Perl extension Business::PayPal::NVP.
 
+Release: 1.10
+----------------------------
+Date:   Wed Mar 30 13:47:31 MDT 2016
+- version bump
+- add new 'ua' user agent attribute (Sachin Sebastian)
+
 Release: 1.09
 ----------------------------
 Date:   Fri Feb 19 07:38:29 2016 -0700
